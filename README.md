@@ -62,6 +62,21 @@ npm run dev
 
 `npm run dev` imports the extension into Raycast. It stays there after you stop `ray develop`.
 
+Open Raycast and type "Fylgja" to find the commands. To open the Navigator with a hotkey, set one under Raycast
+Settings → Extensions → Fylgja → Fylgja Navigator.
+
+## Troubleshooting
+
+- **"Fylgja refused the API secret"** on an action: the daemon reads the secret only at start. Restart it after
+  `fylgja install secret`. Lists still load, because reads need no secret.
+- **"The Fylgja daemon is not running on …"**: start it with `fylgja serve`. The view offers "Copy Start Command".
+- **"… has no window; opened …"** after Go: the session has no window the daemon knows of, so the extension focused the
+  item's IDE or terminal window instead.
+- **The Journal is empty**: it shows the checkout of the focused window. Focus a window inside a checkout Fylgja
+  tracks, then open the Journal again.
+- **The menu bar title never appears**: open "Fylgja Journal in Menu Bar" once in Raycast to enable its background
+  refresh.
+
 ## Preferences
 
 Extension:
