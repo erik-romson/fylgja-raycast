@@ -84,9 +84,10 @@ counts and field paths, never values.
 
 ## Lint with Raycast
 
-`package.json` has the placeholder `TODO-raycast-handle` as `author`. Set it to your Raycast handle, then run
-`npm run lint`. That command needs the network and a real handle. `npm run lint:local` (ESLint and Prettier) and
-`npm run typecheck` work without either.
+The extension is not published to the Raycast Store, so `author` (`erikromson`) is not a registered Raycast user and
+`npm run lint` (`ray lint`) reports it as invalid. Its other checks (icons, ESLint, Prettier) pass. Use
+`npm run lint:local` and `npm run typecheck`, which need neither the network nor a store account. To publish, set
+`author` to a real Raycast username first.
 
 ## Privacy
 

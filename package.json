@@ -4,7 +4,7 @@
   "title": "Fylgja",
   "description": "Jump to the places you work in, ranked by your local Fylgja daemon.",
   "icon": "icon.png",
-  "author": "TODO-raycast-handle",
+  "author": "erikromson",
   "license": "MIT",
   "platforms": [
     "macOS"
