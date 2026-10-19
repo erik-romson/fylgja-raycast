@@ -10,3 +10,7 @@
 /raycast-navigator-brief-plan-questions.md
 /raycast-navigator-brief-plan-review.md
 /raycast-navigator-brief-plan-review-response.md
+/node_modules
+/dist
+raycast-env.d.ts
+.DS_Store

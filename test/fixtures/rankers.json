@@ -1,0 +1,49 @@
+{
+  "schema": "fylgja.rankers/1",
+  "default": "frecency",
+  "configured_default": "frecency",
+  "rankers": [
+    {
+      "name": "frecency",
+      "description": "Focus on working time, decayed",
+      "origin": "built-in",
+      "distribution": "fylgja",
+      "version": "0.1.0",
+      "enabled": true,
+      "loaded": true
+    },
+    {
+      "name": "mine",
+      "origin": "external",
+      "distribution": "my-rankers",
+      "version": "1.0.0",
+      "enabled": false,
+      "loaded": false
+    },
+    {
+      "name": "recent",
+      "description": "Most recently focused first",
+      "origin": "built-in",
+      "distribution": "fylgja",
+      "version": "0.1.0",
+      "enabled": true,
+      "loaded": true
+    },
+    {
+      "name": "workspace",
+      "description": "Workspace number order",
+      "origin": "built-in",
+      "distribution": "fylgja",
+      "version": "0.1.0",
+      "enabled": true,
+      "loaded": true
+    }
+  ],
+  "choices": [
+    { "name": "frecency", "description": "Focus on working time, decayed", "default": true },
+    { "name": "recent", "description": "Most recently focused first", "default": false },
+    { "name": "workspace", "description": "Workspace number order", "default": false }
+  ],
+  "selected": "frecency",
+  "stale_choice": false
+}

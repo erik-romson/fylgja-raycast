@@ -1,0 +1,7 @@
+{
+  "item": "n1",
+  "state": "failed",
+  "steps": ["Step 1"],
+  "generated_at": "2026-10-18T09:00:00+00:00",
+  "error_kind": "timeout"
+}

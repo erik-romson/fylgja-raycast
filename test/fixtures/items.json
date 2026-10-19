@@ -1,0 +1,225 @@
+{
+  "schema": "fylgja.items/1",
+  "generated_at": "2026-10-05T12:00:00Z",
+  "ranker": "frecency",
+  "activity": {
+    "working": true,
+    "away_since": "2026-10-05T10:45:00Z",
+    "away_until": "2026-10-05T11:20:00Z",
+    "session_started_at": "2026-10-05T11:20:00Z",
+    "active_seconds_session": 2400.0
+  },
+  "while_away": [
+    {
+      "item": "0000000000000a01",
+      "name": "alpha/main",
+      "kind": "input",
+      "reason": "waiting for input: Sentence one.",
+      "since": "2026-10-05T11:02:00Z",
+      "go": { "kind": "session", "ref": "claude:abc" }
+    }
+  ],
+  "last_session": {
+    "start": "2026-10-05T08:30:00Z",
+    "end": "2026-10-05T10:45:00Z",
+    "active_seconds": 7200.0,
+    "items": ["0000000000000a01", "0000000000000a02"]
+  },
+  "items": [
+    {
+      "id": "0000000000000a01",
+      "key": "folder:/work/alpha/main",
+      "kind": "folder",
+      "name": "alpha/main",
+      "path": "/work/alpha/main",
+      "tickets": [],
+      "score": 1142.5,
+      "explanation": "focus 30 · waiting +100",
+      "parts": [
+        { "name": "focus", "value": 30.5 },
+        { "name": "waiting", "value": 100.0 }
+      ],
+      "places": [
+        {
+          "kind": "session",
+          "ref": "claude:abc",
+          "role": "agent",
+          "label": "claude",
+          "title": "Sentence one.",
+          "workspace": "3",
+          "open": true,
+          "waiting": true,
+          "last_focus_at": "2026-10-05T10:40:00Z"
+        },
+        {
+          "kind": "window",
+          "ref": "100",
+          "role": "ide",
+          "label": "PyCharm",
+          "title": "Window title 1",
+          "workspace": "3",
+          "open": true,
+          "waiting": false,
+          "last_focus_at": "2026-10-05T10:45:00Z"
+        }
+      ],
+      "state": ["input"],
+      "last_focus_at": "2026-10-05T10:45:00Z",
+      "seconds_today": 5400.0,
+      "summary": "main · Sentence one.",
+      "go": { "kind": "session", "ref": "claude:abc" },
+      "go_ide": { "kind": "window", "ref": "100" },
+      "go_agent": { "kind": "session", "ref": "claude:abc" }
+    },
+    {
+      "id": "0000000000000a02",
+      "key": "folder:/work/beta/CBS-1",
+      "kind": "folder",
+      "name": "beta/CBS-1",
+      "path": "/work/beta/CBS-1",
+      "tickets": ["CBS-1"],
+      "score": 900.0,
+      "explanation": "focus 20",
+      "parts": [{ "name": "focus", "value": 20.0 }],
+      "places": [
+        {
+          "kind": "window",
+          "ref": "101",
+          "role": "ide",
+          "label": "IntelliJ IDEA",
+          "title": "Window title 2",
+          "workspace": "2",
+          "open": true,
+          "waiting": false,
+          "last_focus_at": "2026-10-05T09:30:00Z"
+        },
+        {
+          "kind": "window",
+          "ref": "102",
+          "role": "terminal",
+          "label": "Terminal",
+          "title": "Window title 3",
+          "workspace": "2",
+          "open": true,
+          "waiting": false,
+          "last_focus_at": "2026-10-05T09:00:00Z"
+        }
+      ],
+      "state": ["dirty", "pr_open"],
+      "last_focus_at": "2026-10-05T09:30:00Z",
+      "seconds_today": 1800.0,
+      "summary": "CBS-1 · main · PR #7 open · dirty",
+      "go": { "kind": "window", "ref": "101" },
+      "go_ide": { "kind": "window", "ref": "101" },
+      "go_terminal": { "kind": "window", "ref": "102" }
+    },
+    {
+      "id": "0000000000000a03",
+      "key": "app:com.example.slack",
+      "kind": "app",
+      "name": "Slack",
+      "tickets": [],
+      "score": 500.0,
+      "explanation": "focus 10",
+      "parts": [{ "name": "focus", "value": 10.0 }],
+      "places": [
+        {
+          "kind": "window",
+          "ref": "200",
+          "role": "app",
+          "label": "Slack",
+          "title": "Window title 4",
+          "workspace": "1",
+          "open": true,
+          "waiting": false,
+          "last_focus_at": "2026-10-05T08:50:00Z"
+        }
+      ],
+      "state": [],
+      "last_focus_at": "2026-10-05T08:50:00Z",
+      "seconds_today": 600.0,
+      "summary": "",
+      "go": { "kind": "window", "ref": "200" }
+    },
+    {
+      "id": "0000000000000a04",
+      "key": "app:com.example.safari",
+      "kind": "app",
+      "name": "Safari",
+      "tickets": [],
+      "score": 300.0,
+      "explanation": "focus 5",
+      "parts": [{ "name": "focus", "value": 5.0 }],
+      "places": [
+        {
+          "kind": "window",
+          "ref": "201",
+          "role": "app",
+          "label": "Safari",
+          "title": "Window title 5",
+          "workspace": "1",
+          "open": true,
+          "waiting": false,
+          "last_focus_at": "2026-10-05T08:40:00Z"
+        }
+      ],
+      "state": [],
+      "last_focus_at": "2026-10-05T08:40:00Z",
+      "seconds_today": 300.0,
+      "summary": "",
+      "go": { "kind": "window", "ref": "201" }
+    },
+    {
+      "id": "0000000000000a05",
+      "key": "folder:/work/alpha/CBS-2",
+      "kind": "folder",
+      "name": "alpha/CBS-2",
+      "path": "/work/alpha/CBS-2",
+      "tickets": ["CBS-2"],
+      "score": 200.0,
+      "explanation": "focus 3",
+      "parts": [{ "name": "focus", "value": 3.0 }],
+      "places": [
+        {
+          "kind": "window",
+          "ref": "103",
+          "role": "ide",
+          "label": "PyCharm",
+          "title": "Window title 6",
+          "open": false,
+          "waiting": false,
+          "last_focus_at": "2026-10-04T16:00:00Z"
+        }
+      ],
+      "state": [],
+      "last_focus_at": "2026-10-04T16:00:00Z",
+      "seconds_today": 0.0,
+      "summary": "CBS-2 · main"
+    },
+    {
+      "id": "0000000000000a06",
+      "key": "app:com.example.obsidian",
+      "kind": "app",
+      "name": "Obsidian",
+      "tickets": [],
+      "score": 100.0,
+      "explanation": "focus 1",
+      "parts": [{ "name": "focus", "value": 1.0 }],
+      "places": [],
+      "state": [],
+      "seconds_today": 0.0,
+      "summary": ""
+    }
+  ],
+  "days": [
+    {
+      "day": "2026-10-05",
+      "items": ["0000000000000a01", "0000000000000a02", "0000000000000a03", "0000000000000a04"]
+    },
+    { "day": "2026-10-04", "items": ["0000000000000a05"] },
+    { "day": "2026-10-03", "items": ["0000000000000a06"] }
+  ],
+  "summaries_enabled": false,
+  "total": 6,
+  "shown": 6
+}

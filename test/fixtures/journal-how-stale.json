@@ -1,0 +1,6 @@
+{
+  "item": "n1",
+  "state": "stale",
+  "steps": ["Step 1", "Step 2"],
+  "generated_at": "2026-10-18T09:00:00+00:00"
+}

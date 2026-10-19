@@ -1,0 +1,39 @@
+{
+  "schema": "fylgja.rankers/1",
+  "default": "natural",
+  "configured_default": "frecency",
+  "rankers": [
+    {
+      "name": "frecency",
+      "origin": "built-in",
+      "distribution": "fylgja",
+      "version": "0.1.0",
+      "enabled": false,
+      "loaded": false
+    },
+    {
+      "name": "recent",
+      "description": "Most recently focused first",
+      "origin": "built-in",
+      "distribution": "fylgja",
+      "version": "0.1.0",
+      "enabled": true,
+      "loaded": true
+    },
+    {
+      "name": "workspace",
+      "description": "Workspace number order",
+      "origin": "built-in",
+      "distribution": "fylgja",
+      "version": "0.1.0",
+      "enabled": true,
+      "loaded": true
+    }
+  ],
+  "choices": [
+    { "name": "recent", "description": "Most recently focused first", "default": false },
+    { "name": "workspace", "description": "Workspace number order", "default": false }
+  ],
+  "selected": "natural",
+  "stale_choice": false
+}

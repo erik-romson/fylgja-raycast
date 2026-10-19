@@ -1,0 +1,9 @@
+{
+  "schema": "fylgja.rankers/1",
+  "default": "natural",
+  "configured_default": "natural",
+  "rankers": [],
+  "choices": [],
+  "selected": "natural",
+  "stale_choice": false
+}

@@ -1,0 +1,274 @@
+{
+  "schema": "fylgja.items/1",
+  "generated_at": "2026-10-05T12:00:00.250000Z",
+  "ranker": "frecency",
+  "ranker_fallback": "natural",
+  "activity": {
+    "working": true,
+    "away_since": "2026-10-05T10:45:00Z",
+    "away_until": "2026-10-05T11:20:00.123456Z",
+    "session_started_at": "2026-10-05T11:20:00Z",
+    "active_seconds_session": 2400.5
+  },
+  "while_away": [
+    {
+      "item": "00000000000000e1",
+      "name": "alpha/main",
+      "kind": "permission",
+      "reason": "waiting for permission: Sentence one.",
+      "since": "2026-10-05T11:02:00.500000Z",
+      "go": { "kind": "session", "ref": "claude:abc" }
+    },
+    {
+      "item": "00000000000000e2",
+      "name": "beta/CBS-1",
+      "kind": "frobnicate",
+      "reason": "Sentence one.",
+      "since": "2026-10-05T11:05:00Z"
+    }
+  ],
+  "last_session": {
+    "start": "2026-10-05T08:30:00Z",
+    "end": "2026-10-05T10:45:00Z",
+    "active_seconds": 7200.0,
+    "items": ["00000000000000e1"]
+  },
+  "items": [
+    {
+      "id": "00000000000000e1",
+      "key": "folder:/work/alpha/main",
+      "kind": "folder",
+      "name": "alpha/main",
+      "path": "/work/alpha/main",
+      "group": "alpha-group",
+      "tickets": ["CBS-1", "CBS-2", "CBS-3", "CBS-4"],
+      "score": 1142.5,
+      "explanation": "focus 30 · waiting +100",
+      "parts": [
+        { "name": "focus", "value": 30.5 },
+        { "name": "waiting", "value": 100.0 },
+        { "name": "label only", "value": 0 }
+      ],
+      "places": [
+        {
+          "kind": "session",
+          "ref": "claude:abc",
+          "role": "agent",
+          "label": "claude",
+          "title": "![x](https://example.invalid/x.png)",
+          "workspace": "3",
+          "open": true,
+          "waiting": true,
+          "last_focus_at": "2026-10-05T10:40:00Z"
+        },
+        {
+          "kind": "window",
+          "ref": "100",
+          "role": "ide",
+          "label": "PyCharm",
+          "title": "<b>x</b>",
+          "workspace": "3",
+          "open": true,
+          "waiting": false,
+          "last_focus_at": "2026-10-05T10:45:00.123456Z"
+        },
+        {
+          "kind": "window",
+          "ref": "101",
+          "role": "terminal",
+          "label": "Terminal",
+          "title": "# h",
+          "workspace": "3",
+          "open": true,
+          "waiting": false
+        },
+        {
+          "kind": "window",
+          "ref": "102",
+          "role": "browser",
+          "label": "Safari",
+          "title": "æøå 🚀",
+          "workspace": "4",
+          "open": true,
+          "waiting": false,
+          "last_focus_at": "2026-10-05T09:00:00Z"
+        },
+        {
+          "kind": "session",
+          "ref": "codex:def",
+          "role": "agent",
+          "label": "codex",
+          "title": "Window title 1",
+          "open": false,
+          "waiting": false,
+          "last_focus_at": "2026-10-04T10:00:00Z"
+        },
+        {
+          "kind": "window",
+          "ref": "103",
+          "role": "ide",
+          "label": "IntelliJ IDEA",
+          "open": false,
+          "waiting": false,
+          "last_focus_at": "2026-10-04T09:00:00Z"
+        },
+        {
+          "kind": "session",
+          "ref": "opencode:ghi",
+          "role": "agent",
+          "label": "opencode",
+          "title": "Window title 2",
+          "open": false,
+          "waiting": false
+        },
+        {
+          "kind": "session",
+          "ref": "norn:jkl",
+          "role": "agent",
+          "label": "norn",
+          "title": "Window title 3",
+          "open": false,
+          "waiting": false
+        }
+      ],
+      "state": ["frobnicate", "input", "todo_next"],
+      "last_focus_at": "2026-10-05T10:45:00.123456Z",
+      "seconds_today": 5400.75,
+      "summary": "CBS-1 · main · PR #7 open · dirty",
+      "go": { "kind": "session", "ref": "claude:abc" },
+      "go_ide": { "kind": "window", "ref": "100" },
+      "go_agent": { "kind": "session", "ref": "claude:abc" },
+      "go_terminal": { "kind": "window", "ref": "101" },
+      "story": {
+        "state": "fresh",
+        "text": "Sentence one. Sentence two.",
+        "generated_at": "2026-10-05T11:30:00Z"
+      },
+      "journal": {
+        "thread": "00000000000000f1",
+        "where": "Sentence one. Sentence two.",
+        "next": [
+          { "id": "j1", "text": "Do thing 1" },
+          { "id": "j2", "text": "Do thing 2" },
+          { "id": "j3", "text": "Do thing 3" }
+        ],
+        "next_more": 2
+      }
+    },
+    {
+      "id": "00000000000000e3",
+      "key": "folder:/work/alpha/CBS-2",
+      "kind": "folder",
+      "name": "alpha/CBS-2",
+      "path": "/work/alpha/CBS-2",
+      "tickets": ["CBS-2"],
+      "score": 800.0,
+      "explanation": "focus 20",
+      "parts": [{ "name": "focus", "value": 20.0 }],
+      "places": [
+        {
+          "kind": "window",
+          "ref": "104",
+          "role": "ide",
+          "label": "PyCharm",
+          "title": "Window title 4",
+          "workspace": "2",
+          "open": true,
+          "waiting": false
+        }
+      ],
+      "state": [],
+      "seconds_today": 0,
+      "summary": "",
+      "go": { "kind": "window", "ref": "104" },
+      "story": { "state": "pending" }
+    },
+    {
+      "id": "00000000000000e2",
+      "key": "folder:/work/beta/CBS-1",
+      "kind": "folder",
+      "name": "beta/CBS-1",
+      "path": "/work/beta/CBS-1",
+      "tickets": ["CBS-1"],
+      "score": 700.0,
+      "explanation": "focus 10",
+      "parts": [{ "name": "focus", "value": 10.0 }],
+      "places": [
+        {
+          "kind": "window",
+          "ref": "105",
+          "role": "ide",
+          "label": "IntelliJ IDEA",
+          "title": "Window title 5",
+          "open": false,
+          "waiting": false,
+          "last_focus_at": "2026-10-04T15:00:00Z"
+        }
+      ],
+      "state": ["dirty"],
+      "last_focus_at": "2026-10-04T15:00:00Z",
+      "seconds_today": 0.4,
+      "summary": "CBS-1 · dirty",
+      "story": {
+        "state": "stale",
+        "text": "Sentence one.",
+        "generated_at": "2026-10-04T14:00:00Z"
+      }
+    },
+    {
+      "id": "00000000000000e4",
+      "key": "app:com.example.slack",
+      "kind": "app",
+      "name": "Slack",
+      "tickets": [],
+      "score": 300.0,
+      "explanation": "focus 5",
+      "parts": [{ "name": "focus", "value": 5.0 }],
+      "places": [],
+      "state": [],
+      "seconds_today": 12.5,
+      "summary": "",
+      "story": {
+        "state": "failed",
+        "generated_at": "2026-10-03T08:00:00Z"
+      }
+    },
+    {
+      "id": "00000000000000e5",
+      "key": "app:com.example.pycharm",
+      "kind": "app",
+      "name": "PyCharm",
+      "tickets": [],
+      "score": 200.0,
+      "explanation": "focus 3",
+      "parts": [{ "name": "focus", "value": 3.0 }],
+      "places": [],
+      "state": [],
+      "seconds_today": 0,
+      "summary": ""
+    },
+    {
+      "id": "00000000000000e6",
+      "key": "app:com.example.pycharm.ce",
+      "kind": "app",
+      "name": "PyCharm",
+      "tickets": [],
+      "score": 100.0,
+      "explanation": "focus 1",
+      "parts": [{ "name": "focus", "value": 1.0 }],
+      "places": [],
+      "state": [],
+      "seconds_today": 0,
+      "summary": ""
+    }
+  ],
+  "days": [
+    { "day": "2026-10-05", "items": ["00000000000000e1", "00000000000000e3"] },
+    { "day": "2026-10-04", "items": ["00000000000000e2"] },
+    { "day": "2026-10-03", "items": ["00000000000000e4", "00000000000000e5", "00000000000000e6"] }
+  ],
+  "summaries_enabled": true,
+  "query": "alpha",
+  "total": 40,
+  "shown": 6
+}

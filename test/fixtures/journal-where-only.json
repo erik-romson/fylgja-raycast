@@ -1,0 +1,18 @@
+{
+  "schema": "fylgja.journal/1",
+  "enabled": true,
+  "id": "0123456789abcdef",
+  "name": "beta/CBS-1",
+  "folder": "beta",
+  "branch": "CBS-1",
+  "repo_root": "/work/beta/CBS-1",
+  "last_at": "2026-10-19T09:30:00+00:00",
+  "where": {
+    "state": "fresh",
+    "text": "Sentence one. Sentence two. Sentence three.",
+    "generated_at": "2026-10-19T09:30:00+00:00"
+  },
+  "open": { "next": [], "remember": [], "blocked": [] },
+  "done_recent": [],
+  "entries": []
+}

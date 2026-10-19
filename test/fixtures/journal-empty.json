@@ -1,0 +1,13 @@
+{
+  "schema": "fylgja.journal/1",
+  "enabled": true,
+  "id": "0123456789abcdef",
+  "name": "alpha/main",
+  "folder": "alpha",
+  "branch": "main",
+  "repo_root": "/work/alpha/main",
+  "where": { "state": "missing" },
+  "open": { "next": [], "remember": [], "blocked": [] },
+  "done_recent": [],
+  "entries": []
+}

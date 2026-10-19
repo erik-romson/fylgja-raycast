@@ -1,0 +1,12 @@
+{
+  "schema": "fylgja.items/1",
+  "generated_at": "2026-10-05T12:00:00Z",
+  "ranker": "frecency",
+  "activity": { "working": false, "active_seconds_session": 0.0 },
+  "while_away": [],
+  "items": [],
+  "days": [],
+  "summaries_enabled": false,
+  "total": 0,
+  "shown": 0
+}

@@ -1,0 +1,133 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "fylgja",
+  "title": "Fylgja",
+  "description": "Jump to the places you work in, ranked by your local Fylgja daemon.",
+  "icon": "icon.png",
+  "author": "TODO-raycast-handle",
+  "license": "MIT",
+  "platforms": [
+    "macOS"
+  ],
+  "categories": [
+    "Productivity",
+    "Developer Tools"
+  ],
+  "commands": [
+    {
+      "name": "navigate",
+      "title": "Fylgja Navigator",
+      "description": "Jump to a window or session, ranked by Fylgja.",
+      "mode": "view",
+      "preferences": [
+        {
+          "name": "defaultRanker",
+          "type": "textfield",
+          "title": "Default Ranker",
+          "description": "Name of the ranker to start with. Empty uses the daemon's default.",
+          "default": "",
+          "required": false
+        },
+        {
+          "name": "days",
+          "type": "dropdown",
+          "title": "Days",
+          "description": "How many days back the while-away list looks.",
+          "default": "14",
+          "required": false,
+          "data": [
+            {
+              "title": "1 day",
+              "value": "1"
+            },
+            {
+              "title": "3 days",
+              "value": "3"
+            },
+            {
+              "title": "7 days",
+              "value": "7"
+            },
+            {
+              "title": "14 days",
+              "value": "14"
+            }
+          ]
+        },
+        {
+          "name": "onlyOpen",
+          "type": "checkbox",
+          "title": "Open Items",
+          "label": "Only items with something open",
+          "description": "Hide items that have no open window or session.",
+          "default": true,
+          "required": false
+        },
+        {
+          "name": "groupByDay",
+          "type": "checkbox",
+          "title": "Grouping",
+          "label": "Group by day",
+          "description": "Group the items by the day of their last focus.",
+          "default": false,
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "journal",
+      "title": "Fylgja Journal",
+      "description": "Show the journal of the focused checkout, with actions on its items.",
+      "mode": "view"
+    },
+    {
+      "name": "journal-menubar",
+      "title": "Fylgja Journal in Menu Bar",
+      "description": "Show the first sentence of where you are in the focused checkout, in the menu bar.",
+      "mode": "menu-bar",
+      "interval": "1m"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "baseUrl",
+      "type": "textfield",
+      "title": "Daemon Address",
+      "description": "Address of the local Fylgja daemon.",
+      "default": "http://127.0.0.1:7319",
+      "required": false
+    },
+    {
+      "name": "secretFile",
+      "type": "textfield",
+      "title": "API Secret File",
+      "description": "File that holds the Fylgja API secret.",
+      "default": "~/.config/fylgja/api-secret",
+      "required": false
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "~1.104.25",
+    "@raycast/utils": "^2.3.2"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.2.0",
+    "@types/node": "22.19.17",
+    "@types/react": "19.0.10",
+    "eslint": "^10",
+    "prettier": "^3.9",
+    "typescript": "~6.0.3",
+    "vitest": "~4.1.12"
+  },
+  "scripts": {
+    "build": "ray build -e dist -o dist",
+    "dev": "ray develop",
+    "lint": "ray lint",
+    "fix-lint": "ray lint --fix",
+    "lint:local": "eslint src test && prettier --check src test package.json tsconfig.json README.md",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:live": "vitest run --config vitest.live.config.mts",
+    "check": "npm run build && npm run typecheck && npm run lint:local && npm test"
+  }
+}
