@@ -87,7 +87,7 @@ counts and field paths, never values.
 The extension is not published to the Raycast Store, so `author` (`erikromson`) is not a registered Raycast user and
 `npm run lint` (`ray lint`) reports it as invalid. Its other checks (icons, ESLint, Prettier) pass. Use
 `npm run lint:local` and `npm run typecheck`, which need neither the network nor a store account. To publish, set
-`author` to a real Raycast username first.
+`author` to a real Raycast username first; see `docs/TODO.md`.
 
 ## Privacy
 
