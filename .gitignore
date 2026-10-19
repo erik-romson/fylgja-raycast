@@ -1,0 +1,12 @@
+/tmp/
+*.runs
+*.checkpoint
+*.history
+/raycast-navigator-brief-final-plan/
+/raycast-navigator-brief-final-plan-research/
+/.idea/
+/raycast-navigator-brief.md
+/raycast-navigator-brief-final-plan.md
+/raycast-navigator-brief-plan-questions.md
+/raycast-navigator-brief-plan-review.md
+/raycast-navigator-brief-plan-review-response.md
