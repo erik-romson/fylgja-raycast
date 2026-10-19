@@ -80,7 +80,8 @@ Fylgja Navigator:
 
 `npm run check` runs the build, the type check, ESLint, Prettier and every test. `npm run test:live` is a separate,
 read-only (GET only) contract check against the running daemon; set `FYLGJA_LIVE_URL` to use another address. It prints
-counts and field paths, never values.
+counts and field paths, never values. The UI has no automated tests; [`docs/manual-test.md`](docs/manual-test.md) is
+the checklist to go through in Raycast after UI changes.
 
 ## Lint with Raycast
 
@@ -88,6 +89,12 @@ The extension is not published to the Raycast Store, so `author` (`erikromson`) 
 `npm run lint` (`ray lint`) reports it as invalid. Its other checks (icons, ESLint, Prettier) pass. Use
 `npm run lint:local` and `npm run typecheck`, which need neither the network nor a store account. To publish, set
 `author` to a real Raycast username first; see `docs/TODO.md`.
+
+## Docs
+
+- [`docs/design.md`](docs/design.md): the daemon contract as the client sees it, and the design decisions.
+- [`docs/manual-test.md`](docs/manual-test.md): the manual UI checklist.
+- [`docs/TODO.md`](docs/TODO.md): open questions, and the steps to publish to the Raycast Store.
 
 ## Privacy
 

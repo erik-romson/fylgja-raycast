@@ -1,5 +1,12 @@
 # TODO
 
+## Open questions from first use
+
+- [ ] "Here now" (brief open question 4): does `frecency` with the current item lowered point to the right place when
+      switching?
+- [ ] Is `summary` a good enough subtitle, or does it need a short headline from the daemon?
+- [ ] Does hiding items with nothing open by default hide work you wanted to find by search?
+
 ## Publish to the Raycast Store (not planned)
 
 The extension is for private use. If that changes, do these steps. Raycast's guide is at
