@@ -56,7 +56,7 @@ describe("detail markdown", () => {
 
   it("has no story heading without text or without a story", () => {
     expect(md({ story: { state: "pending" } })).not.toContain("Story");
-    expect(md({})).toBe("");
+    expect(md({})).toBe("## alpha/main");
   });
 
   it("shows the journal: Where you are, three next items and +N more", () => {
@@ -71,7 +71,18 @@ describe("detail markdown", () => {
     expect(m).toContain("Where you are");
     expect(m).toContain("Next 3");
     expect(m).not.toContain("Next 4");
-    expect(m).toContain("+2 more");
+    expect(m).toContain("+2 more in the Journal");
+  });
+
+  it("leads with the item's name, then the journal, then the story and the summary", () => {
+    const m = md({
+      summary: "The summary.",
+      story: { state: "fresh", text: "The story." },
+      journal: { thread: "t1", where: "The where.", next: [{ id: "n1", text: "The next." }] },
+    });
+    const order = ["## alpha/main", "Where you are", "Do next", "The story.", "The summary."].map((s) => m.indexOf(s));
+    expect(order.every((at) => at >= 0)).toBe(true);
+    expect(order).toEqual([...order].sort((a, b) => a - b));
   });
 
   it("has no Where you are heading without where, and nothing without a journal", () => {
@@ -153,6 +164,13 @@ describe("detail metadata", () => {
         expect(haystack, `${it.name}: ${accessory.text}`).toContain(accessory.text);
       }
     }
+  });
+
+  it("puts the row's accessories first, as tags", () => {
+    const it = item({ state: ["build_failed", "dirty"] } as Partial<NavItem>);
+    const first = buildDetail(it, options).metadata[0];
+    expect(first.label).toBe("Status");
+    expect(first.tags).toEqual(toRow(it, options).accessories);
   });
 
   it("carries the summarizing accessory while a summary is pending", () => {

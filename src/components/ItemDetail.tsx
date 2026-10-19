@@ -1,6 +1,7 @@
 import { List } from "@raycast/api";
 import { buildDetail } from "../detail";
 import type { NavItem } from "../fylgja/types";
+import { toneColor } from "../ui/icons-map";
 
 export function ItemDetail({
   item,
@@ -17,9 +18,21 @@ export function ItemDetail({
       markdown={detail.markdown}
       metadata={
         <List.Item.Detail.Metadata>
-          {detail.metadata.map((line, i) => (
-            <List.Item.Detail.Metadata.Label key={`${i}:${line.label}`} title={line.label} text={line.text} />
-          ))}
+          {detail.metadata.map((line, i) =>
+            line.tags ? (
+              <List.Item.Detail.Metadata.TagList key={`${i}:${line.label}`} title={line.label}>
+                {line.tags.map((tag, j) => (
+                  <List.Item.Detail.Metadata.TagList.Item
+                    key={`${j}:${tag.text}`}
+                    text={tag.text}
+                    color={toneColor(tag.tone)}
+                  />
+                ))}
+              </List.Item.Detail.Metadata.TagList>
+            ) : (
+              <List.Item.Detail.Metadata.Label key={`${i}:${line.label}`} title={line.label} text={line.text} />
+            ),
+          )}
         </List.Item.Detail.Metadata>
       }
     />
