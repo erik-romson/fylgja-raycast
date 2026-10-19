@@ -28,7 +28,7 @@ import {
   rankerOptions,
   tooltipFor,
 } from "./rankers";
-import { awayRows, daySections, navigationTitle, sections, toRow, viewState } from "./rows";
+import { awayRows, daySections, navigationTitle, sections, showAwaySection, toRow, viewState } from "./rows";
 import { onSummarizeAnswer, pollSummary } from "./summary-poll";
 import { checkSecret, createFylgjaClient } from "./ui/client";
 import { toAccessory, toIcon } from "./ui/icons-map";
@@ -346,7 +346,10 @@ export default function Command() {
                 </List.Section>
               ))
             ) : (
-              <List.Section key="items">{data.items.map(itemRow)}</List.Section>
+              // Without a title, Raycast draws the items as part of the away section above them.
+              <List.Section key="items" title={showAwaySection(data, q) ? "All items" : undefined}>
+                {data.items.map(itemRow)}
+              </List.Section>
             ),
           )
         : null}

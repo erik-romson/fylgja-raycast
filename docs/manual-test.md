@@ -6,6 +6,8 @@ after UI changes. `npm run test:live` checks the daemon contract separately.
 ## Navigator
 
 - [ ] List order equals the Fylgja page's Recall tab for the same ranker.
+- [ ] With a "Changed while you were away" section, the ranked items follow under their own "All items" header, so
+      an item that is in both does not look like a duplicate.
 - [ ] "Show Items with Nothing Open…" (shown when the `onlyOpen` preference hides everything) opens the Navigator
       preferences with the `onlyOpen` checkbox.
 - [ ] Enter focuses a window and a cmux session.
