@@ -51,7 +51,8 @@ function markdownOf(item: NavItem, now: Date | number): string {
     blocks.push(block);
   }
 
-  if (item.summary.trim() !== "") blocks.push(`## Summary\n\n${para(item.summary)}`);
+  const summary = item.summary ?? "";
+  if (summary.trim() !== "") blocks.push(`## Summary\n\n${para(summary)}`);
 
   const journal = item.journal;
   if (journal) {
@@ -93,7 +94,8 @@ export function buildDetail(item: NavItem, options: RowOptions): DetailModel {
   metadata.push(line("Today", formatDuration(item.seconds_today)));
   const lastFocus = formatAgo(item.last_focus_at, options.now);
   if (lastFocus !== "") metadata.push(line("Last focus", lastFocus));
-  if (item.explanation.trim() !== "") metadata.push(line("Ranker", item.explanation));
+  const explanation = item.explanation ?? "";
+  if (explanation.trim() !== "") metadata.push(line("Ranker", explanation));
 
   // The pane replaces the row's accessories, so it carries every one of them.
   if (row.accessories.length > 0) {

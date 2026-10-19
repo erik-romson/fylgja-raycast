@@ -39,17 +39,16 @@ export function formatAgo(iso: string | undefined, now: Date | number): string {
 }
 
 /**
- * Escapes `s` so no image, link, HTML, heading, list, quote, table or code structure survives in markdown. The text
- * stays readable: every special character is backslash-escaped.
+ * Escapes `s` so no image, link, HTML, heading, rule, list, quote, table or code structure survives in markdown. The
+ * text stays readable: every special character is backslash-escaped, and leading indentation, which markdown drops
+ * from paragraph lines anyway, is removed so no line becomes an indented code block.
  */
 export function escapeMarkdown(s: string): string {
   return s
     .replace(/[\\`*_[\]()<>#|!~]/g, "\\$&")
-    .replace(
-      /^([ \t]*)(?:(\d{1,9})([.)])|([-+=]))(?=[ \t]|$)/gm,
-      (_m, indent: string, digits?: string, dot?: string, mark?: string) =>
-        digits !== undefined ? `${indent}${digits}\\${dot}` : `${indent}\\${mark}`,
-    );
+    .replace(/^[ \t]+/gm, "")
+    .replace(/^(\d{1,9})([.)])(?=[ \t]|$)/gm, "$1\\$2")
+    .replace(/^([-+=])(?=[ \t]|$|\1)/gm, "\\$1");
 }
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];

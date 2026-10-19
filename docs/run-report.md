@@ -44,7 +44,7 @@ still never sent to the redirect target.
 Manual checks (the UI cannot be tested under Vitest):
 
 - The list order equals the Fylgja page's Recall tab for the same ranker.
-- "Show Items With Nothing Open…" (shown when the `onlyOpen` preference hides everything) opens the Navigator
+- "Show Items with Nothing Open…" (shown when the `onlyOpen` preference hides everything) opens the Navigator
   preferences with the `onlyOpen` checkbox.
 - Enter focuses a window, and a cmux session.
 - Stopping the daemon shows the "not running" view with "Copy Start Command".
@@ -173,7 +173,7 @@ Shortcut changes: ⌘D avoided (Duplicate); ⌘P and ⌘↵ reserved; Copy Path,
 From the step 05-12 sections above:
 
 - [ ] List order equals the Fylgja page's Recall tab for the same ranker.
-- [ ] "Show Items With Nothing Open…" opens the Navigator preferences.
+- [ ] "Show Items with Nothing Open…" opens the Navigator preferences.
 - [ ] Enter focuses a window and a cmux session.
 - [ ] With the daemon stopped, the "not running" view and "Copy Start Command" show.
 - [ ] A renamed secret file gives the secret toast on Enter.

@@ -365,7 +365,7 @@ export default function Command() {
             <ActionPanel>
               {state.offerPreferences ? (
                 <Action
-                  title="Show Items With Nothing Open…"
+                  title="Show Items with Nothing Open…"
                   icon={Icon.Gear}
                   onAction={() => openCommandPreferences()}
                 />

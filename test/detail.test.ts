@@ -103,6 +103,13 @@ describe("detail metadata", () => {
     expect(labels({})).not.toContain("App id");
   });
 
+  it("renders an item whose daemon omitted summary and explanation", () => {
+    const partial = item({ summary: undefined, explanation: undefined } as unknown as Partial<NavItem>);
+    const detail = buildDetail(partial, options);
+    expect(detail.markdown).not.toContain("## Summary");
+    expect(detail.metadata.map((m) => m.label)).not.toContain("Ranker");
+  });
+
   it("shows Group only when present", () => {
     expect(labels({})).not.toContain("Group");
     expect(labels({ group: "alpha-group" })).toContain("Group");

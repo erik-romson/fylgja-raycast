@@ -88,6 +88,18 @@ describe("escapeMarkdown", () => {
     expect(escapeMarkdown("a\n1. b\n- c")).toBe("a\n1\\. b\n\\- c");
   });
 
+  it("escapes setext underlines and thematic breaks", () => {
+    expect(escapeMarkdown("Title\n===")).toBe("Title\n\\===");
+    expect(escapeMarkdown("Title\n---")).toBe("Title\n\\---");
+    expect(escapeMarkdown("a\n\n- - -")).toBe("a\n\n\\- - -");
+    expect(escapeMarkdown("a-b = c")).toBe("a-b = c");
+  });
+
+  it("removes leading indentation so no line becomes a code block", () => {
+    expect(escapeMarkdown("a\n\n    code")).toBe("a\n\ncode");
+    expect(escapeMarkdown("a\n\t- item")).toBe("a\n\\- item");
+  });
+
   it("escapes the backslash and leaves plain text alone", () => {
     expect(escapeMarkdown("a\\b")).toBe("a\\\\b");
     expect(escapeMarkdown("Sentence one.")).toBe("Sentence one.");
