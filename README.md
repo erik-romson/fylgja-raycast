@@ -53,6 +53,23 @@ Go to IDE, Agent and Terminal exist only when the item has that target. Go exist
 
 Items that are done or dropped offer Open Source and Refresh only.
 
+## Journal in the menu bar
+
+"Fylgja Journal in Menu Bar" puts the Fylgja icon in the macOS menu bar with a short note of where you are in the
+checkout of the focused window.
+
+- **Title**: the first sentence of the checkout's "Where you are", cut to 40 characters.
+- **Tooltip**: the whole "Where you are" text, and a note when Fylgja's last attempt to update it failed.
+- **Menu**: the checkout (`folder · branch`), the whole Where text and the shown "Do next" items, then **Open Fylgja
+  Journal** (opens the Journal command) and **Refresh**.
+
+It asks the daemon again every minute, so the title follows you to another checkout within a minute. When the focused
+window is not in a checkout Fylgja tracks, only the icon shows. When the daemon cannot be reached, the menu holds the
+message; the menu bar never shows a toast.
+
+Run the command once in Raycast to turn it on; Raycast keeps it running from then on, also after a restart. To turn it
+off, disable the command under Raycast Settings → Extensions → Fylgja.
+
 ## Install
 
 ```sh
