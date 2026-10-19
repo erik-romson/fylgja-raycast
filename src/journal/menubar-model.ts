@@ -3,6 +3,7 @@
 import { firstSentence, oneLine, truncate } from "../format";
 import { FylgjaError } from "../fylgja/errors";
 import type { FocusedJournal, JournalThread } from "../fylgja/journal-types";
+import { checkoutName } from "./model";
 
 export const MENUBAR_TITLE_MAX = 40;
 export const MENUBAR_TIMEOUT_MS = 4_000;
@@ -44,7 +45,7 @@ function threadModel(thread: JournalThread): MenubarModel {
   else if (where?.state === "failed") tooltip = `Last attempt failed${failure(thread.error_kind)}`;
   else tooltip = "No entry yet";
 
-  const items: MenubarItem[] = [{ kind: "info", title: line(`${thread.name} · ${thread.branch}`, ITEM_MAX) }];
+  const items: MenubarItem[] = [{ kind: "info", title: line(`${checkoutName(thread)} · ${thread.branch}`, ITEM_MAX) }];
   if (text !== "") items.push({ kind: "info", title: line(text, WHERE_MAX) });
   for (const item of thread.open?.next ?? []) {
     if (item.shown === true) items.push({ kind: "info", title: line(item.text, ITEM_MAX) });

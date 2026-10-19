@@ -76,7 +76,7 @@ describe("menubarModel", () => {
     expect(m.title).toBe("Sentence one.");
     expect(m.tooltip).toBe("Sentence one. Sentence two.");
     const titles = m.items.map((i) => i.title);
-    expect(titles[0]).toBe(`${base.name} · ${base.branch}`);
+    expect(titles[0]).toBe(`${base.folder} · ${base.branch}`);
     expect(titles[1]).toBe("Sentence one. Sentence two.");
     expect(titles.slice(-2)).toEqual(["Open Fylgja Journal", "Refresh"]);
     expect(m.items.slice(-2).map((i) => i.kind)).toEqual(["open-journal", "refresh"]);

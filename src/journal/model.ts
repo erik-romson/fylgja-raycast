@@ -114,11 +114,17 @@ function checkoutHeading(thread: JournalThread): string {
   return `## ${escapeMarkdown(navigationTitle(thread))}`;
 }
 
-/** The Where block of the detail pane: escaped text and the thread banner. */
+/**
+ * The Where block of the detail pane: escaped text and the thread banner. When the banner names the failure, the text
+ * leaves out its own "(last attempt failed)".
+ */
 function whereBlock(thread: JournalThread): string {
   const bannerText = banner(thread);
-  return [escapeMarkdown(whereText(thread.where)), bannerText ? escapeMarkdown(bannerText) : undefined]
-    .filter((p): p is string => p !== undefined)
+  const text = oneLine(thread.where?.text ?? "");
+  const where = bannerText && thread.where?.state === "failed" ? text : whereText(thread.where);
+  return [where, bannerText]
+    .filter((p): p is string => p !== undefined && p !== "")
+    .map(escapeMarkdown)
     .join("\n\n");
 }
 
@@ -141,7 +147,7 @@ export function journalView(thread: JournalThread, now: Date | number = Date.now
   }
   return {
     kind: "empty",
-    title: `No journal entries yet for ${oneLine(thread.name)}`,
+    title: `No journal entries yet for ${checkoutName(thread)}`,
     description: whereText(thread.where),
   };
 }
@@ -232,6 +238,11 @@ export function howMarkdown(how: JournalHow): string {
   }
 }
 
+/** The checkout's last two path components (`fylgja-raycast/main`), as the Navigator names folders; else its name. */
+export function checkoutName(thread: JournalThread): string {
+  return oneLine(thread.folder || thread.name);
+}
+
 export function navigationTitle(thread: JournalThread): string {
-  return truncate(oneLine(`${thread.name} · ${thread.branch}`), NAV_TITLE_MAX);
+  return truncate(`${checkoutName(thread)} · ${oneLine(thread.branch)}`, NAV_TITLE_MAX);
 }

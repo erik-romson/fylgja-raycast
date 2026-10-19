@@ -126,6 +126,15 @@ describe("whereText and banner", () => {
     expect(banner(thread)).toBeUndefined();
   });
 
+  it("rowDetail names a failed attempt once, with its kind", () => {
+    const failed = { ...thread, where: { state: "failed", text: "Four commits." }, error_kind: "bad_output" };
+    const row = journalSections(failed as JournalThread, NOW)[0].rows[0];
+    const detail = rowDetail(failed as JournalThread, row);
+    expect(detail).toContain("Last attempt failed: bad\\_output");
+    expect(detail).not.toContain("(last attempt failed)");
+    expect(detail).toContain("Four commits.");
+  });
+
   it("rowDetail leads with the checkout and the item's whole text, then the source, How state and Where you are", () => {
     const row = journalSections(thread, NOW)[0].rows[1];
     const detail = rowDetail(thread, row);
@@ -223,6 +232,13 @@ describe("howMarkdown", () => {
 });
 
 describe("navigationTitle", () => {
+  it("names the checkout by its folder, not its bare name", () => {
+    expect(navigationTitle({ ...thread, name: "main", folder: "fylgja-raycast/main", branch: "main" })).toBe(
+      "fylgja-raycast/main · main",
+    );
+    expect(navigationTitle({ ...thread, name: "main", folder: "", branch: "dev" })).toBe("main · dev");
+  });
+
   it("cuts a long name to 60 code points on one line", () => {
     const title = navigationTitle({ ...thread, name: `${"n".repeat(45)}\n${"m".repeat(45)}`, branch: "main" });
     expect(Array.from(title).length).toBeLessThanOrEqual(60);
