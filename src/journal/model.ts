@@ -109,6 +109,11 @@ export function journalSections(thread: JournalThread, now: Date | number = Date
   return sections;
 }
 
+/** The detail pane's heading: the checkout the journal belongs to. */
+function checkoutHeading(thread: JournalThread): string {
+  return `## ${escapeMarkdown(navigationTitle(thread))}`;
+}
+
 /** The Where block of the detail pane: escaped text and the thread banner. */
 function whereBlock(thread: JournalThread): string {
   const bannerText = banner(thread);
@@ -130,7 +135,7 @@ export function journalView(thread: JournalThread, now: Date | number = Date.now
         title: "Where you are",
         subtitle: truncate(text, SUBTITLE_MAX),
         pinned: false,
-        detail: whereBlock(thread),
+        detail: `${checkoutHeading(thread)}\n\n${whereBlock(thread)}`,
       },
     };
   }
@@ -141,17 +146,21 @@ export function journalView(thread: JournalThread, now: Date | number = Date.now
   };
 }
 
-/** The detail pane of a row of the `rows` view: Where you are, then the item's source and How state. */
+/**
+ * The detail pane of a row of the `rows` view: the checkout, the item's whole text, its source and How state, then
+ * Where you are, which is the same for every row.
+ */
 export function rowDetail(thread: JournalThread, row: JournalRow): string {
-  const parts = ["**Where you are**", whereBlock(thread)];
+  const parts = [checkoutHeading(thread)];
   const item = row.item;
   if (item) {
     const source = item.source;
     const lines = [`**Source:** ${escapeMarkdown(oneLine(`${source.kind}: ${source.label}`))}`];
     if (source.kind === "file" && source.path) lines.push(`**Path:** ${escapeMarkdown(oneLine(source.path))}`);
     lines.push(`**How:** ${item.has_how ? "a checklist exists" : "no checklist yet"}`);
-    parts.push("---", lines.join("\n\n"));
+    parts.push(escapeMarkdown(item.text.trim()), lines.join("\n\n"), "---");
   }
+  parts.push("**Where you are**", whereBlock(thread));
   return parts.join("\n\n");
 }
 

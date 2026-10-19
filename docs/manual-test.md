@@ -30,8 +30,10 @@ after UI changes. `npm run test:live` checks the daemon contract separately.
 
 ## Journal
 
-- [ ] The focused checkout's journal shows Do next, Keep in mind, Blocked and one section per day, with the Where text
-      on top of the detail pane.
+- [ ] The focused checkout's journal shows Do next, Keep in mind, Blocked and one section per day. The search bar
+      names the checkout.
+- [ ] The detail pane starts with the checkout (`name · branch`), then the selected item's whole text, its source and
+      How state, with "Where you are" at the bottom.
 - [ ] Mark as Done, Pin/Unpin, Drop with Undo and Make a Todo change the item as the Fylgja page shows it.
 - [ ] How Do I Do This? shows "Pending", then the steps after ⌘R.
 - [ ] A thread with Where text and no items shows the "Where you are" row.

@@ -126,10 +126,13 @@ describe("whereText and banner", () => {
     expect(banner(thread)).toBeUndefined();
   });
 
-  it("rowDetail leads with Where you are and then the source and How state", () => {
+  it("rowDetail leads with the checkout and the item's whole text, then the source, How state and Where you are", () => {
     const row = journalSections(thread, NOW)[0].rows[1];
     const detail = rowDetail(thread, row);
-    expect(detail.indexOf("Where you are")).toBeLessThan(detail.indexOf("Source"));
+    expect(detail.startsWith(`## ${navigationTitle(thread)}`)).toBe(true);
+    expect(detail).toContain(row.item!.text);
+    expect(detail.indexOf(row.item!.text)).toBeLessThan(detail.indexOf("Source"));
+    expect(detail.indexOf("Source")).toBeLessThan(detail.indexOf("Where you are"));
     expect(detail).toContain("file: notes.md");
     expect(detail).toContain("/work/alpha/main/notes.md");
     expect(detail).toContain("no checklist yet");

@@ -178,6 +178,9 @@ export default function Command() {
       isLoading={isLoading}
       isShowingDetail
       navigationTitle={!error && data?.kind === "thread" ? navigationTitle(data.thread) : undefined}
+      searchBarPlaceholder={
+        !error && data?.kind === "thread" ? `Search the ${navigationTitle(data.thread)} journal` : undefined
+      }
     >
       {error ? <ErrorView error={error} /> : body(data)}
     </List>
