@@ -52,7 +52,7 @@ export default function Command() {
   const { defaultRanker, days, onlyOpen: onlyOpenPref, groupByDay } = getPreferenceValues<Preferences>();
   const onlyOpen = onlyOpenPref ?? true;
   const [q, setQ] = useState("");
-  const [showDetail, setShowDetail] = useCachedState("showDetail", false);
+  const [showDetail, setShowDetail] = useCachedState("detailPane", true);
   // Real app icons: fallbacks show until the list of applications resolves; a failure is ignored.
   const [apps, setApps] = useState<AppIndex>(NO_APPS);
   useEffect(() => {

@@ -23,9 +23,10 @@ after UI changes. `npm run test:live` checks the daemon contract separately.
 - [ ] Searching a ticket key, or a word only in a place title, finds the item.
 - [ ] Every action works on a folder item and an app item: Go, Toggle Details (⌘I), Go to IDE/Agent/Terminal
       (⌘1/⌘2/⌘3), Focus Place (⌘G), Copy Path, Copy Ticket, Refresh.
-- [ ] The detail pane (⌘I) leads with the item's name, then "Where you are", up to three "Do next" items and
-      "+N more in the Journal", then the story and the summary. Its metadata starts with a "Status" tag list that
-      carries every hidden accessory in the row's colors (build failed red, turn done orange).
+- [ ] The detail pane is open on first open, and ⌘I hides it until the next ⌘I, also after reopening. It leads
+      with the item's name, then "Where you are", up to three "Do next" items and "+N more in the Journal", then the
+      story and the summary. Its metadata starts with a "Status" tag list that carries every hidden accessory in the
+      row's colors (build failed red, turn done orange).
 - [ ] A crafted title or summary with an image link (`![x](https://example.invalid/x.png)`) renders as text.
 - [ ] Real app icons replace the fallback icons once `getApplications()` resolves, without delaying the first paint.
 - [ ] With summaries on, ⌘S on an item without a story shows "summarizing…", then the story. With summaries off,

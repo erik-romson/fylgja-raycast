@@ -32,8 +32,9 @@ Where the daemon differs from the brief:
   is not planned, see [`TODO.md`](TODO.md).
 - "Group by day" is built; live refresh over `/events`, auto-summarize top N and "Windows by workspace" are left out.
 - The subtitle is `summary`, else the title of the `go` place, else empty; the story is in the detail pane only.
-- The Navigator's detail pane is journal first: name, "Where you are", "Do next", then story and summary. Its metadata
-  starts with the row's accessories as colored tags, because the pane hides them.
+- The Navigator's detail pane is open by default (⌘I hides it, and the choice is kept) and journal first: name,
+  "Where you are", "Do next", then story and summary. Its metadata starts with the row's accessories as colored tags,
+  because the pane hides them.
 - `onlyOpen` is on by default and sends `open=true`; with it off, items with nothing open show an accessory and have no
   Go.
 - A windowless session (409) gets one fallback to `go_ide`, else `go_terminal`; never more than two focus calls.
