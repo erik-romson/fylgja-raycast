@@ -1,77 +1,125 @@
 # Design notes
 
-Why the extension works the way it does: where the daemon differs from the original brief, the decisions taken, and
-how the client reads cases the daemon contract leaves open.
+Why the extension works the way it does. The first part lists where the daemon turned out to differ from the original
+brief. The rest records the decisions taken, and how the client handles cases the daemon's API leaves open.
 
-## Daemon contract
+## Where the daemon differs from the brief
 
-Where the daemon differs from the brief:
+Items:
 
-- D1: `/items` also takes `open=<bool>`; `total` is counted before `q`, `open` and `limit`.
-- D2: error bodies come in four shapes: string `detail`, array `detail` (FastAPI 422), the summaries 409 body
-  `{scope, ref, state: "disabled"}`, and `{"detail":"Not Found"}` for an unknown route. All four are mapped.
-- D3: waiting kinds also include `run_finished`, `build_failed`, `review_requested` and `unread`; `state[]` is sorted
-  alphabetically, so the client picks the one marker by urgency.
-- D4: `NavItem` has `key` and optional `journal` and `group`.
-- D5: a summaries POST 200 can be `stale` or `failed` inside the 300 s TTL (no job started); a first summary that is
-  running has no `story`; pending is tracked client-side.
-- D6: journal writes are `PATCH /journal/items/{id}` (`status`, `pinned`; `{}` is 422) and
-  `POST /journal/items/{id}/todo` (201 created, 200 existing).
-- D7: `POST .../how` answers only `fresh` (200) or `pending` (202); `GET` adds `missing`.
-- D8: the daemon reads the secret once at start; a new or rotated secret gets 401 until it restarts.
-- D9: the daemon sends raw `YYYY-MM-DD` days; the client formats the day labels.
-- D10: ⌘D is `Common.Duplicate`, ⌘P is reserved (search-bar dropdown), ⌘↵ is reserved for the second action.
-- D11: `List.Dropdown` has one `tooltip`, and `storeValue` cannot be cleared, so the dropdown is controlled with its own
-  persisted state.
-- D12: `/journal/focused` usually answers 200 with an empty journal, a normal state.
+- `/items` also takes `open=<bool>`. Its `total` is counted before `q`, `open` and `limit` are applied.
+- An item (`NavItem`) also has a `key`, and optionally a `journal` and a `group`.
+- There are more waiting states than the brief listed: `run_finished`, `build_failed`, `review_requested` and `unread`.
+  The `state[]` list is sorted alphabetically, not by urgency, so the client picks the most urgent one itself.
+- Days come as raw `YYYY-MM-DD` dates; the client turns them into labels such as "Today".
+
+Errors come in four shapes, and the client handles all of them:
+
+- `detail` as a string;
+- `detail` as an array (FastAPI's 422 validation error);
+- the 409 from summaries when they are turned off: `{scope, ref, state: "disabled"}`;
+- `{"detail": "Not Found"}` for an unknown route.
+
+Summaries:
+
+- A summaries POST can answer 200 with a `stale` or `failed` story within its 300-second cache time. No new job starts
+  then.
+- A first summary that is still running has no `story` yet, so the client tracks "summarizing…" itself.
+
+Journal:
+
+- Changes are `PATCH /journal/items/{id}` (`status` and `pinned`; an empty body is a 422) and
+  `POST /journal/items/{id}/todo` (201 when created, 200 when it already exists).
+- `POST .../how` answers `fresh` (200) or `pending` (202) only; `GET` can also answer `missing`.
+- `/journal/focused` usually answers 200 with an empty journal. That is a normal state, not an error.
+
+Secret:
+
+- The daemon reads the API secret once, when it starts. A new or changed secret gets 401 until the daemon restarts.
+
+Raycast:
+
+- ⌘D is Raycast's Duplicate, ⌘P opens the search bar dropdown, and ⌘↵ belongs to a panel's second action.
+- `List.Dropdown` has only one tooltip, and a value saved with `storeValue` cannot be cleared. So the ranker dropdown
+  keeps its own saved state instead.
 
 ## Decisions
 
-- One row per navigation item; places are actions and detail lines.
-- Private distribution (`ray develop` / `ray build`); the gates are `lint:local`, `typecheck` and the tests. Publishing
-  is not planned, see [`TODO.md`](TODO.md).
-- "Group by day" is built; live refresh over `/events`, auto-summarize top N and "Windows by workspace" are left out.
-- The subtitle is `summary`, else the title of the `go` place, else empty; the story is in the detail pane only.
-- The Navigator's detail pane is open by default (⌘I hides it, and the choice is kept) and journal first: name,
-  "Where you are", "Do next", then story and summary. Its metadata starts with the row's accessories as colored tags,
-  because the pane hides them. Last focus and Today share one Time line, and the ranker's explanation is an action
-  (Copy Ranker Explanation), not a line, to keep the metadata short.
-- Each known state tag has an icon for its source (agent, run, CI, git, pull request, todo, window), tinted with the
-  tag's color; the agent states read "needs approval", "needs answer" and "done". Raycast has no git icon, so three
-  Octicons are in `assets/octicons/`.
-- `onlyOpen` is on by default and sends `open=true`; with it off, items with nothing open show an accessory and have no
-  Go.
-- A windowless session (409) gets one fallback to `go_ide`, else `go_terminal`; never more than two focus calls.
-- Fixtures are hand-written; no live data is committed.
-- The Journal is a `List` with an always-on detail pane.
-- Journal "Open Source" failure shows a toast with an "Open Fylgja Page" action; it never opens a browser tab by itself.
-- `@raycast/api` is pinned with `~`.
-- The ranker choice is persisted with `useCachedState`, not `storeValue`.
-- Shortcuts: ⌘D is avoided (Duplicate); ⌘P and ⌘↵ are reserved; Copy Path, Copy Ticket, Refresh, Open, Pin and Remove
-  use `Keyboard.Shortcut.Common.*`.
+The Navigator list:
 
-## HTTP client
+- One row per item. An item's windows and sessions ("places") are actions and lines in the detail pane, not rows of
+  their own.
+- The row's subtitle is the item's `summary`; if it has none, the title of the window Go would open; otherwise nothing.
+  The story shows only in the detail pane.
+- "Only items with something open" is on by default and sends `open=true`. When it is off, items with nothing open show
+  a "nothing open" tag and have no Go.
+- "Group by day" is built. Live updates over `/events`, summarizing the top items automatically, and "Windows by
+  workspace" are left out.
+- The ranker choice is saved with `useCachedState`, not `storeValue`, because the latter cannot be cleared.
 
-- A `secretFile` that is not absolute after `~/` expansion (for example `relative/x`, `$FYLGJA_CONFIG_DIR/...`) is
-  `no_secret` with the message `No Fylgja API secret at <path>: the path must be absolute` instead of the
-  `fylgja install secret` hint.
-- A 404 or 409 without a `detail`, and a 400/403 whose detail is not one of the daemon's guard texts, map to
-  `server_error` (`Fylgja answered <status>`). A 413/415/422 without a detail use that text inside their kind's message.
-- `http://127.0.0.1:80` counts as having no port (`URL` drops the default port, and `fetch` would then send a `Host`
-  without the port, which the daemon refuses).
+The detail pane:
 
-Risk: with `redirect: "error"`, Node's `fetch` rejects any redirect status with `TypeError("fetch failed")` and the
-cause message `unexpected redirect`. `http.ts` maps that cause text to `bad_response` (checked under Node 25.9 by the
-loopback test). If a later Node in Raycast changes the text, a redirect shows as `network` instead; the bearer is
-still never sent to the redirect target.
+- It is open by default. ⌘I hides it, and the choice is kept.
+- It puts the journal first: the item's name, "Where you are" and "Do next", then the story and the summary.
+- Its metadata starts with the row's tags, in their colors, because Raycast hides the row's tags while the pane is open.
+- To keep the metadata short, Last focus and Today share one Time line, and the ranker's explanation is an action (Copy
+  Ranker Explanation) instead of a line.
 
-## Rankers
+Status tags:
 
-- `dropdownChange` compares the reported value with the value the dropdown shows, not with the effective rank. So when
-  Raycast echoes the shown `""` on mount or while the options load, the stored choice is not overwritten.
-- The unknown-ranker 422 refetch goes out with no rank at all. If a stale stored choice gets the 422 before `/rankers`
-  answers, the `defaultRanker` preference is also skipped for that run. The next open uses it again.
-- Without a `/rankers` answer (first open with no cache, or a failure), the only option is `""`, titled `Default`. The
-  fallback option takes its name from the answer's `default` field, so today it reads `natural (fallback)`.
-- `/rankers` is fetched again (GET) whenever the effective rank changes, so its `stale_choice` always matches the rank
-  that was sent.
+- Each known state has an icon for its source (agent, run, CI, git, pull request, todo, window), in the tag's color.
+- The agent states read "needs approval", "needs answer" and "done" instead of the daemon's `permission`, `input` and
+  `turn_done`.
+- Raycast has no git icon, so three GitHub Octicons are in `assets/octicons/`.
+
+Go:
+
+- If Go hits an agent session that has no window (the daemon answers 409), the client tries once more with the item's
+  IDE window, or else its terminal. It never makes more than two focus calls.
+
+The Journal:
+
+- It is a `List` with the detail pane always open.
+- If "Open Source" fails, a toast offers "Open Fylgja Page". The extension never opens a browser tab by itself.
+
+Shortcuts:
+
+- ⌘D, ⌘P and ⌘↵ are not used, because Raycast uses them (see above).
+- Copy Path, Copy Ticket, Refresh, Open, Pin and Remove use Raycast's standard shortcuts (`Keyboard.Shortcut.Common`).
+
+Building and testing:
+
+- The extension is private: it runs through `ray develop` or `ray build`. The checks that must pass are `lint:local`,
+  `typecheck` and the tests. Publishing is not planned; see [`TODO.md`](TODO.md).
+- `@raycast/api` is pinned with `~`, so only patch versions update.
+- Test fixtures are written by hand. No live data is committed.
+
+## HTTP client edge cases
+
+- A secret file path that is not absolute after `~/` is expanded (for example `relative/x` or `$FYLGJA_CONFIG_DIR/...`)
+  gives the error "No Fylgja API secret at <path>: the path must be absolute", not the usual `fylgja install secret`
+  hint.
+- Some errors carry no useful detail: a 404 or 409 without a `detail`, or a 400 or 403 whose detail is not one of the
+  daemon's known texts. These show as "Fylgja answered <status>". A 413, 415 or 422 without a detail uses that status
+  text in its usual message.
+- `http://127.0.0.1:80` is treated as having no port. `URL` drops the default port, and `fetch` would then send a `Host`
+  header without the port, which the daemon refuses.
+
+A known risk: redirects are refused (`redirect: "error"`). Node's `fetch` then fails with `TypeError("fetch failed")`
+and the cause message `unexpected redirect`, which `http.ts` turns into a `bad_response` error. This was checked under
+Node 25.9 by the loopback test. If a later Node in Raycast changes that message, a redirect shows as a network error
+instead. Either way, the secret is never sent to the redirect target.
+
+## Ranker edge cases
+
+- When the dropdown reports a change, the client compares it with the value the dropdown shows, not with the ranker in
+  use. Raycast reports the shown empty value when the view opens and while the options load; comparing this way keeps
+  that from overwriting the saved choice.
+- If the daemon does not know the requested ranker (422), the client asks again without any ranker. If a saved choice
+  that no longer exists gets the 422 before `/rankers` has answered, the Default Ranker preference is also skipped for
+  that one open. The next open uses it again.
+- Without an answer from `/rankers` (the first open with nothing cached, or a failure), the dropdown has one option,
+  "Default". The fallback option takes its name from the answer's `default` field, so today it reads "natural
+  (fallback)".
+- `/rankers` is fetched again whenever the ranker in use changes, so its `stale_choice` always matches the ranker that
+  was sent.
