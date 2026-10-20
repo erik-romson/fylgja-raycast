@@ -5,10 +5,14 @@ import { dayLabel, formatAgo, formatDuration, oneLine, truncate } from "./format
 
 export type Tone = "urgent" | "warning" | "neutral" | "subtle";
 
+/** Where a state comes from; `src/ui/` shows it as the tag's icon. */
+export type TagSource = "agent" | "run" | "ci" | "review" | "pr" | "git" | "todo" | "unread";
+
 export interface AccessoryModel {
   text: string;
   tone: Tone;
   tooltip?: string;
+  source?: TagSource;
 }
 
 export interface RowModel {
@@ -39,17 +43,37 @@ const WAITING_URGENCY: Record<string, number> = {
 };
 const TOP_URGENCY = 4;
 
+/** The text and source of each state the client knows; any other state shows as its words. */
+const STATES: Record<string, { text: string; source: TagSource }> = {
+  permission: { text: "needs approval", source: "agent" },
+  input: { text: "needs answer", source: "agent" },
+  turn_done: { text: "done", source: "agent" },
+  run_finished: { text: "run finished", source: "run" },
+  build_failed: { text: "build failed", source: "ci" },
+  review_requested: { text: "review requested", source: "review" },
+  unread: { text: "unread", source: "unread" },
+  dirty: { text: "dirty", source: "git" },
+  pr_open: { text: "PR open", source: "pr" },
+  todo_next: { text: "todo next", source: "todo" },
+};
+
 function isWaiting(kind: string): boolean {
   return Object.hasOwn(WAITING_URGENCY, kind);
 }
 
-function words(kind: string): string {
-  return kind.replace(/_/g, " ");
+function stateText(kind: string): string {
+  return Object.hasOwn(STATES, kind) ? STATES[kind]!.text : kind.replace(/_/g, " ");
 }
 
 function tag(text: string, tone: Tone = "neutral", tooltip?: string): AccessoryModel {
   const accessory: AccessoryModel = { text: truncate(oneLine(text), TAG_MAX), tone };
   if (tooltip !== undefined) accessory.tooltip = truncate(oneLine(tooltip), 200);
+  return accessory;
+}
+
+function stateTag(kind: string, tone: Tone, tooltip?: string): AccessoryModel {
+  const accessory = tag(stateText(kind), tone, tooltip);
+  if (Object.hasOwn(STATES, kind)) accessory.source = STATES[kind]!.source;
   return accessory;
 }
 
@@ -94,17 +118,14 @@ export function toRow(item: NavItem, options: RowOptions): RowModel {
     if (topWaiting === undefined || WAITING_URGENCY[kind]! > WAITING_URGENCY[topWaiting]!) topWaiting = kind;
   }
   if (topWaiting !== undefined) {
-    accessories.push(tag(words(topWaiting), waitingTone(topWaiting), `Waiting: ${waiting.map(words).join(", ")}`));
+    accessories.push(stateTag(topWaiting, waitingTone(topWaiting), `Waiting: ${waiting.map(stateText).join(", ")}`));
   }
 
   const seen = new Set<string>();
   for (const kind of state) {
     if (isWaiting(kind) || seen.has(kind)) continue;
     seen.add(kind);
-    if (kind === "dirty") accessories.push(tag("dirty"));
-    else if (kind === "pr_open") accessories.push(tag("PR open"));
-    else if (kind === "todo_next") accessories.push(tag("todo next"));
-    else accessories.push(tag(words(kind)));
+    accessories.push(stateTag(kind, "neutral"));
   }
 
   if (goPlace?.workspace) accessories.push(tag(`ws ${goPlace.workspace}`, "subtle"));
@@ -123,7 +144,7 @@ export function toRow(item: NavItem, options: RowOptions): RowModel {
 
 export function awayRows(whileAway: AwayChange[] | undefined, now: Date | number): AwayRowModel[] {
   return (whileAway ?? []).map((change, index) => {
-    const accessories: AccessoryModel[] = [tag(words(change.kind), waitingTone(change.kind))];
+    const accessories: AccessoryModel[] = [stateTag(change.kind, waitingTone(change.kind))];
     const ago = formatAgo(change.since, now);
     if (ago !== "") accessories.push(tag(ago, "subtle"));
     const row: AwayRowModel = {

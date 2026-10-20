@@ -87,15 +87,33 @@ describe("toRow", () => {
   it("shows one waiting marker, the most urgent", () => {
     const r = row({ state: ["permission", "input"] });
     expect(r.accessories).toHaveLength(1);
-    expect(r.accessories[0]).toMatchObject({ text: "permission", tone: "urgent" });
-    expect(r.accessories[0]!.tooltip).toContain("input");
+    expect(r.accessories[0]).toMatchObject({ text: "needs approval", tone: "urgent", source: "agent" });
+    expect(r.accessories[0]!.tooltip).toBe("Waiting: needs approval, needs answer");
     expect(row({ state: ["unread", "turn_done"] }).accessories[0]).toMatchObject({
-      text: "turn done",
+      text: "done",
       tone: "warning",
     });
     expect(texts({ state: ["build_failed"] })).toEqual(["build failed"]);
-    expect(texts({ state: ["turn_done", "dirty", "pr_open"] })).toEqual(["turn done", "dirty", "PR open"]);
+    expect(texts({ state: ["turn_done", "dirty", "pr_open"] })).toEqual(["done", "dirty", "PR open"]);
     expect(texts({ state: ["todo_next"] })).toEqual(["todo next"]);
+  });
+
+  it("gives each known state its source", () => {
+    const source = (state: string) => row({ state: [state] }).accessories[0]!.source;
+    expect(["permission", "input", "turn_done"].map(source)).toEqual(["agent", "agent", "agent"]);
+    expect(["run_finished", "build_failed", "review_requested", "unread"].map(source)).toEqual([
+      "run",
+      "ci",
+      "review",
+      "unread",
+    ]);
+    expect(["dirty", "pr_open", "todo_next"].map(source)).toEqual(["git", "pr", "todo"]);
+  });
+
+  it("gives tickets, time, workspace and unknown states no source", () => {
+    const r = row({ state: ["frobnicate", "constructor"], tickets: ["CBS-1"], seconds_today: 60 });
+    expect(r.accessories.map((a) => a.text)).toEqual(["CBS-1", "frobnicate", "constructor", "1m today"]);
+    expect(r.accessories.every((a) => a.source === undefined)).toBe(true);
   });
 
   it("renders an unknown state as a neutral tag and none for []", () => {
@@ -153,13 +171,14 @@ describe("awayRows", () => {
       subtitle: "Sentence one.",
       go: entry.go,
     });
-    expect(r!.accessories.map((a) => a.text)).toEqual(["turn done", "1h ago"]);
+    expect(r!.accessories.map((a) => a.text)).toEqual(["done", "1h ago"]);
+    expect(r!.accessories[0]!.source).toBe("agent");
   });
 
   it("has no time without since and unique ids for one item", () => {
     const noSince: AwayChange = { ...entry, since: undefined };
     const rows = awayRows([noSince, entry], NOW);
-    expect(rows[0]!.accessories.map((a) => a.text)).toEqual(["turn done"]);
+    expect(rows[0]!.accessories.map((a) => a.text)).toEqual(["done"]);
     expect(rows[0]!.id).not.toBe(rows[1]!.id);
   });
 });

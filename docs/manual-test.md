@@ -27,6 +27,8 @@ after UI changes. `npm run test:live` checks the daemon contract separately.
       with the item's name, then "Where you are", up to three "Do next" items and "+N more in the Journal", then the
       story and the summary. Its metadata starts with a "Status" tag list that carries every hidden accessory in the
       row's colors (build failed red, turn done orange).
+- [ ] State tags show their icon in the tag's color, on the row and in the pane: a star on needs approval, needs
+      answer and done, and the Octicons on dirty, PR open and review requested.
 - [ ] A crafted title or summary with an image link (`![x](https://example.invalid/x.png)`) renders as text.
 - [ ] Real app icons replace the fallback icons once `getApplications()` resolves, without delaying the first paint.
 - [ ] With summaries on, ⌘S on an item without a story shows "summarizing…", then the story. With summaries off,

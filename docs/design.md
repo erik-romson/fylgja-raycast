@@ -36,6 +36,9 @@ Where the daemon differs from the brief:
   "Where you are", "Do next", then story and summary. Its metadata starts with the row's accessories as colored tags,
   because the pane hides them. Last focus and Today share one Time line, and the ranker's explanation is an action
   (Copy Ranker Explanation), not a line, to keep the metadata short.
+- Each known state tag has an icon for its source (agent, run, CI, git, pull request, todo, window), tinted with the
+  tag's color; the agent states read "needs approval", "needs answer" and "done". Raycast has no git icon, so three
+  Octicons are in `assets/octicons/`.
 - `onlyOpen` is on by default and sends `open=true`; with it off, items with nothing open show an accessory and have no
   Go.
 - A windowless session (409) gets one fallback to `go_ide`, else `go_terminal`; never more than two focus calls.

@@ -1,7 +1,7 @@
 import { List } from "@raycast/api";
 import { buildDetail } from "../detail";
 import type { NavItem } from "../fylgja/types";
-import { toneColor } from "../ui/icons-map";
+import { tagIcon, toneColor } from "../ui/icons-map";
 
 export function ItemDetail({
   item,
@@ -25,6 +25,7 @@ export function ItemDetail({
                   <List.Item.Detail.Metadata.TagList.Item
                     key={`${j}:${tag.text}`}
                     text={tag.text}
+                    icon={tagIcon(tag)}
                     color={toneColor(tag.tone)}
                   />
                 ))}

@@ -56,6 +56,28 @@ Ranker Explanation copies why the item has its place in the list, for example
 
 Items that are done or dropped offer Open Source and Refresh only.
 
+## Status tags
+
+The tags on a Navigator row, and in the detail pane's Status line, come from the daemon. Each has an icon for where it
+comes from. Of the waiting tags (red and orange), only the most urgent shows; its tooltip lists them all.
+
+| Tag              | Icon         | Color  | Meaning                                                            |
+| ---------------- | ------------ | ------ | ------------------------------------------------------------------ |
+| needs approval   | star (agent) | red    | An agent waits for you to allow a tool call.                       |
+| needs answer     | star (agent) | red    | An agent asked you a question.                                     |
+| done             | star (agent) | orange | An agent finished its turn, and you have not looked since.         |
+| run finished     | play         | orange | A norn run ended, and you have not focused its project since.      |
+| build failed     | hammer       | orange | The project's build fails (projects touched today).                |
+| review requested | code review  | orange | An open pull request needs a review (projects touched today).      |
+| unread           | envelope     | orange | A window title shows an unread marker.                             |
+| dirty            | diff         | grey   | The checkout has uncommitted changes.                              |
+| PR open          | pull request | grey   | The branch has an open pull request.                               |
+| todo next        | checklist    | grey   | A todo is marked next, in the project or in one of its workspaces. |
+
+Tickets, the workspace (`ws 13`) and the time (`1h 7m today`, `9h ago`) are plain text. A state the extension does not
+know shows as grey text. The git, pull request and code review icons are GitHub Octicons (MIT, see
+`assets/octicons/LICENSE`).
+
 ## Journal in the menu bar
 
 "Fylgja Journal in Menu Bar" puts the Fylgja icon in the macOS menu bar with a short note of where you are in the
