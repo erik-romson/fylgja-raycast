@@ -102,7 +102,12 @@ npm install
 npm run dev
 ```
 
-`npm run dev` imports the extension into Raycast. It stays there after you stop `ray develop`.
+`npm run dev` (`ray develop`) builds the extension, imports it into Raycast and rebuilds it on every change. Raycast
+keeps the imported extension after you stop it with Ctrl+C, also after a restart, so it only needs to run while you
+change the code. After a pull or a change, run it again until Raycast shows the new build, then stop it.
+
+The only thing that must always run is the Fylgja daemon (`fylgja serve`). Without it, every command shows "The Fylgja
+daemon is not running".
 
 Open Raycast and type "Fylgja" to find the commands. To open the Navigator with a hotkey, set one under Raycast
 Settings → Extensions → Fylgja → Fylgja Navigator.
