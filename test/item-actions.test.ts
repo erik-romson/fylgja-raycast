@@ -138,6 +138,13 @@ describe("itemActions", () => {
     expect(four.shortcut).toEqual({ common: "Copy" });
   });
 
+  it("has Copy Ranker Explanation only with an explanation, before Refresh", () => {
+    expect(titles(item())).not.toContain("Copy Ranker Explanation");
+    const actions = itemActions(item({ explanation: "focus 22 · turn done +90" }));
+    expect(actions.map((a) => a.title).slice(-2)).toEqual(["Copy Ranker Explanation", "Refresh"]);
+    expect(actions.find((a) => a.kind === "copy-explanation")!.copy).toBe("focus 22 · turn done +90");
+  });
+
   describe("Summarize", () => {
     const withSummaries = (i: NavItem) => itemActions(i, true);
 

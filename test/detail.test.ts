@@ -118,7 +118,14 @@ describe("detail metadata", () => {
     const partial = item({ summary: undefined, explanation: undefined } as unknown as Partial<NavItem>);
     const detail = buildDetail(partial, options);
     expect(detail.markdown).not.toContain("## Summary");
-    expect(detail.metadata.map((m) => m.label)).not.toContain("Ranker");
+  });
+
+  it("shows Time without a last focus, and no Ranker line", () => {
+    expect(buildDetail(item({ seconds_today: 600 }), options).metadata).toContainEqual({
+      label: "Time",
+      text: "10m today",
+    });
+    expect(labels({})).not.toContain("Ranker");
   });
 
   it("shows Group only when present", () => {
@@ -150,9 +157,7 @@ describe("detail metadata", () => {
     ).metadata;
     expect(lines).toContainEqual({ label: "PyCharm — Window title 1", text: "ws 3 · open · waiting · 5m ago" });
     expect(lines).toContainEqual({ label: "Terminal", text: "closed" });
-    expect(lines).toContainEqual({ label: "Today", text: "1h 30m" });
-    expect(lines).toContainEqual({ label: "Last focus", text: "1h ago" });
-    expect(lines).toContainEqual({ label: "Ranker", text: "focus 10" });
+    expect(lines).toContainEqual({ label: "Time", text: "1h 30m today · last focus 1h ago" });
   });
 
   it("carries every accessory text of the row, for every fixture item", () => {

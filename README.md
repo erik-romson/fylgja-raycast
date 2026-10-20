@@ -35,9 +35,12 @@ to the first and second action of a panel; ⌘D, ⌘K, ⌘P and ⌘W are never a
 | Focus Place (a submenu of the open places)       | ⌘G                  |
 | Copy Path                                        | Raycast "Copy Path" |
 | Copy Ticket                                      | Raycast "Copy"      |
+| Copy Ranker Explanation                          | none                |
 | Refresh                                          | Raycast "Refresh"   |
 
-Go to IDE, Agent and Terminal exist only when the item has that target. Go exists only when something is open.
+Go to IDE, Agent and Terminal exist only when the item has that target. Go exists only when something is open. Copy
+Ranker Explanation copies why the item has its place in the list, for example
+`focus 22 · last session +10 · turn done +90`.
 
 ### Journal
 

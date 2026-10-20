@@ -30,7 +30,15 @@ export const RESERVED_SHORTCUTS: readonly ShortcutDescriptor[] = [
 ];
 
 export type ItemActionKind =
-  "go" | "toggle-details" | "summarize" | "go-role" | "focus-place" | "copy-path" | "copy-ticket" | "refresh";
+  | "go"
+  | "toggle-details"
+  | "summarize"
+  | "go-role"
+  | "focus-place"
+  | "copy-path"
+  | "copy-ticket"
+  | "copy-explanation"
+  | "refresh";
 
 export interface PlaceEntry {
   /** Unique within the submenu. */
@@ -52,7 +60,7 @@ export interface ItemActionDescriptor {
   shortcut?: ShortcutDescriptor;
   /** For `go` and `go-role`. */
   target?: GoTarget;
-  /** The text a Copy action copies (a single ticket, the path). */
+  /** The text a Copy action copies (a single ticket, the path, the ranker's explanation). */
   copy?: string;
   /** For the Focus Place submenu. */
   places?: PlaceEntry[];
@@ -139,6 +147,16 @@ export function itemActions(item: NavItem, summariesEnabled = false): ItemAction
       title: "Copy Ticket",
       shortcut: { common: "Copy" },
       tickets: tickets.map((t, i) => ({ id: `${i}:${t}`, title: truncate(oneLine(t), ENTRY_TITLE_MAX), text: t })),
+    });
+  }
+
+  const explanation = item.explanation ?? "";
+  if (explanation.trim() !== "") {
+    actions.push({
+      id: "copy-explanation",
+      kind: "copy-explanation",
+      title: "Copy Ranker Explanation",
+      copy: explanation,
     });
   }
 

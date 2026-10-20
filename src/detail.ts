@@ -94,16 +94,14 @@ export function buildDetail(item: NavItem, options: RowOptions): DetailModel {
   }
 
   const lastFocus = formatAgo(item.last_focus_at, options.now);
-  if (lastFocus !== "") metadata.push(line("Last focus", lastFocus));
-  metadata.push(line("Today", formatDuration(item.seconds_today)));
+  const today = `${formatDuration(item.seconds_today)} today`;
+  metadata.push(line("Time", lastFocus !== "" ? `${today} · last focus ${lastFocus}` : today));
 
   const tickets = item.tickets ?? [];
   if (tickets.length > 0) metadata.push(line("Tickets", tickets.join(", ")));
   if (item.group) metadata.push(line("Group", item.group));
   if (item.kind === "folder" && item.path) metadata.push(line("Path", item.path));
   if (item.kind === "app" && item.key.startsWith("app:")) metadata.push(line("App id", item.key.slice("app:".length)));
-  const explanation = item.explanation ?? "";
-  if (explanation.trim() !== "") metadata.push(line("Ranker", explanation));
 
   return { markdown: markdownOf(item, options.now), metadata };
 }

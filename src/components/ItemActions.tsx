@@ -65,6 +65,7 @@ function render(action: ItemActionDescriptor, { item, go, onToggleDetails, onRef
         </ActionPanel.Submenu>
       );
     case "copy-path":
+    case "copy-explanation":
       return (
         <Action.CopyToClipboard key={action.id} title={action.title} content={action.copy ?? ""} shortcut={shortcut} />
       );

@@ -22,7 +22,7 @@ after UI changes. `npm run test:live` checks the daemon contract separately.
 - [ ] Typing fast shows no "No items match" flash.
 - [ ] Searching a ticket key, or a word only in a place title, finds the item.
 - [ ] Every action works on a folder item and an app item: Go, Toggle Details (⌘I), Go to IDE/Agent/Terminal
-      (⌘1/⌘2/⌘3), Focus Place (⌘G), Copy Path, Copy Ticket, Refresh.
+      (⌘1/⌘2/⌘3), Focus Place (⌘G), Copy Path, Copy Ticket, Copy Ranker Explanation, Refresh.
 - [ ] The detail pane is open on first open, and ⌘I hides it until the next ⌘I, also after reopening. It leads
       with the item's name, then "Where you are", up to three "Do next" items and "+N more in the Journal", then the
       story and the summary. Its metadata starts with a "Status" tag list that carries every hidden accessory in the
