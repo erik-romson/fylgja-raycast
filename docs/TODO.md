@@ -27,3 +27,11 @@ https://developers.raycast.com/basics/prepare-an-extension-for-store.
 - [ ] Run `npm run build`, open the distribution build in Raycast and check that it works.
 - [ ] Add `"publish": "npx @raycast/api@latest publish"` to the scripts and run `npm run publish`. It opens a pull
       request against `raycast/extensions`.
+
+## Mockups
+
+The status tag icons as drawn before they were built (the built-in Raycast icons are drawn with the closest Octicon):
+
+![Navigator rows with status tag icons](mockups/status-icons-rows.png)
+
+![Detail pane with status tag icons](mockups/status-icons-pane.png)
