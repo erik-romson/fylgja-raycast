@@ -1,6 +1,6 @@
-/** The Journal view model: sections, rows, Where text, actions and How text. Plain TypeScript (R2). */
-import { dayLabel, escapeMarkdown, oneLine, truncate } from "../format";
-import type { JournalHow, JournalItem, JournalThread, JournalWhere } from "../fylgja/journal-types";
+/** The Journal view model: sections, rows, Recap and Where text, actions and How text. Plain TypeScript (R2). */
+import { dayLabel, escapeMarkdown, formatAgo, oneLine, truncate } from "../format";
+import type { JournalHow, JournalItem, JournalRecap, JournalThread, JournalWhere } from "../fylgja/journal-types";
 import type { ShortcutDescriptor } from "../item-actions";
 
 const TITLE_MAX = 100;
@@ -9,13 +9,15 @@ const NAV_TITLE_MAX = 60;
 
 export interface JournalRow {
   id: string;
-  kind: "item" | "headline" | "where";
+  kind: "item" | "headline" | "where" | "recap";
   title: string;
   subtitle?: string;
   /** Items carry a pin marker when pinned. */
   pinned: boolean;
   /** Set for `kind: "item"`. */
   item?: JournalItem;
+  /** Set for `kind: "recap"`. */
+  recap?: JournalRecap;
   /** Set for `kind: "where"`: the whole detail pane. */
   detail?: string;
 }
@@ -78,8 +80,23 @@ function capitalise(s: string): string {
   return first.toUpperCase() + rest.join("");
 }
 
+/** The Recap row: the session's own summary of the work, with its age as the subtitle. */
+function recapRow(recap: JournalRecap, now: Date | number): JournalRow {
+  return {
+    id: "recap",
+    kind: "recap",
+    title: truncate(oneLine(recap.text), TITLE_MAX),
+    subtitle: formatAgo(recap.at, now),
+    pinned: false,
+    recap,
+  };
+}
+
 export function journalSections(thread: JournalThread, now: Date | number = Date.now()): JournalSection[] {
   const sections: JournalSection[] = [];
+  if (thread.recap && oneLine(thread.recap.text) !== "") {
+    sections.push({ id: "recap", title: "Recap", rows: [recapRow(thread.recap, now)] });
+  }
   const open: [string, string, JournalItem[] | undefined][] = [
     ["next", "Do next", thread.open?.next],
     ["remember", "Keep in mind", thread.open?.remember],
@@ -158,6 +175,10 @@ export function journalView(thread: JournalThread, now: Date | number = Date.now
  */
 export function rowDetail(thread: JournalThread, row: JournalRow): string {
   const parts = [checkoutHeading(thread)];
+  if (row.recap) {
+    const age = row.subtitle ? ` · ${escapeMarkdown(row.subtitle)}` : "";
+    parts.push(`**Recap**${age}`, escapeMarkdown(oneLine(row.recap.text)), "---");
+  }
   const item = row.item;
   if (item) {
     const source = item.source;

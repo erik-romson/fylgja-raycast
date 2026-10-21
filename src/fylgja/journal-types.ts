@@ -17,6 +17,14 @@ export interface JournalWhere {
   generated_at?: string;
 }
 
+/** The newest recap a session of the checkout wrote (Claude Code's `away_summary`). */
+export interface JournalRecap {
+  text: string;
+  at: string;
+  /** The session key. */
+  session: string;
+}
+
 export interface JournalSource {
   kind: SourceKind;
   ref: string;
@@ -66,6 +74,8 @@ export interface JournalThread {
   repo_root: string;
   last_at?: string;
   where: JournalWhere;
+  /** Absent while no session of the checkout wrote one. */
+  recap?: JournalRecap;
   open: JournalOpen;
   done_recent: DoneDay[];
   entries: unknown[];

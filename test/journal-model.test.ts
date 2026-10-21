@@ -63,6 +63,42 @@ describe("journalSections", () => {
   });
 });
 
+describe("the recap", () => {
+  const recap = {
+    text: "We are writing the parser;\nnext, run the tests.",
+    at: new Date(NOW.getTime() - 12 * 60_000).toISOString(),
+    session: "claude:s1",
+  };
+  const withRecap: JournalThread = { ...thread, recap };
+
+  it("is its own section above Do next, with its age as the subtitle", () => {
+    const sections = journalSections(withRecap, NOW);
+    expect(sections.map((s) => s.title).slice(0, 2)).toEqual(["Recap", "Do next"]);
+    const [row] = sections[0].rows;
+    expect(row).toMatchObject({ id: "recap", kind: "recap", subtitle: "12m ago", pinned: false });
+    expect(row.title).toBe("We are writing the parser; next, run the tests.");
+  });
+
+  it("shows the whole recap in the detail pane before Where you are", () => {
+    const row = journalSections(withRecap, NOW)[0].rows[0];
+    const detail = rowDetail(withRecap, row);
+    expect(detail).toContain("**Recap** · 12m ago");
+    expect(detail).toContain(escapeMarkdown("We are writing the parser; next, run the tests."));
+    expect(detail.indexOf("**Recap**")).toBeLessThan(detail.indexOf("Where you are"));
+  });
+
+  it("is left out when it has no text", () => {
+    const blank = { ...thread, recap: { ...recap, text: "  " } };
+    expect(journalSections(blank, NOW)[0].title).toBe("Do next");
+  });
+
+  it("turns a journal with only Where you are into rows", () => {
+    const view = journalView({ ...whereOnly, recap }, NOW);
+    expect(view.kind).toBe("rows");
+    if (view.kind === "rows") expect(view.sections.map((s) => s.id)).toEqual(["recap"]);
+  });
+});
+
 describe("journalView", () => {
   it("is rows for a full thread", () => {
     expect(journalView(thread, NOW).kind).toBe("rows");

@@ -36,6 +36,13 @@ const ICONS: Record<JournalActionDescriptor["id"], Icon> = {
   refresh: Icon.ArrowClockwise,
 };
 
+const ROW_ICONS: Record<JournalRow["kind"], Icon> = {
+  item: Icon.Circle,
+  headline: Icon.Dot,
+  where: Icon.Compass,
+  recap: Icon.SpeechBubble,
+};
+
 function asFylgjaError(error: Error | undefined): FylgjaError | undefined {
   if (!error) return undefined;
   return error instanceof FylgjaError ? error : new FylgjaError("server_error", error.message);
@@ -147,7 +154,7 @@ export default function Command() {
     <List.Item
       key={row.id}
       id={row.id}
-      icon={row.kind === "headline" ? Icon.Dot : row.kind === "where" ? Icon.Compass : Icon.Circle}
+      icon={ROW_ICONS[row.kind]}
       title={row.title}
       subtitle={row.subtitle}
       accessories={row.pinned ? [{ icon: { source: Icon.Pin, tintColor: Color.Orange }, tooltip: "Pinned" }] : []}
