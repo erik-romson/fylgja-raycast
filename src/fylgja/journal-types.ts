@@ -37,7 +37,7 @@ export interface JournalItem {
   source: JournalSource;
   created_at: string;
   closed_at?: string;
-  closed_by?: Known<"model" | "user">;
+  closed_by?: Known<"model" | "user" | "fylgja">;
   todo_id?: string;
   has_how: boolean;
 }
