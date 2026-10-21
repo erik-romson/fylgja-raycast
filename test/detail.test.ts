@@ -85,6 +85,28 @@ describe("detail markdown", () => {
     expect(order).toEqual([...order].sort((a, b) => a - b));
   });
 
+  it("shows the recap with its age between Where you are and Do next", () => {
+    const m = md({
+      journal: {
+        thread: "t1",
+        where: "The where.",
+        recap: { text: "Fixing the form;\nnext, test it.", at: "2026-10-05T11:48:00Z", session: "claude:s1" },
+        next: [{ id: "n1", text: "The next." }],
+      },
+    });
+    expect(m).toContain("Fixing the form; next, test it.");
+    expect(m).toContain("*12m ago*");
+    const order = ["Where you are", "**Recap**", "Do next"].map((s) => m.indexOf(s));
+    expect(order.every((at) => at >= 0)).toBe(true);
+    expect(order).toEqual([...order].sort((a, b) => a - b));
+  });
+
+  it("has no Recap heading without a recap or with an empty one", () => {
+    expect(md({ journal: { thread: "t1", where: "The where.", next: [] } })).not.toContain("Recap");
+    const blank = { text: " ", at: "2026-10-05T11:48:00Z", session: "claude:s1" };
+    expect(md({ journal: { thread: "t1", recap: blank, next: [] } })).not.toContain("Recap");
+  });
+
   it("has no Where you are heading without where, and nothing without a journal", () => {
     expect(md({ journal: { thread: "t1", next: [{ id: "n1", text: "Next 1" }] } })).not.toContain("Where you are");
     expect(md({})).not.toContain("Do next");
@@ -95,7 +117,12 @@ describe("detail markdown", () => {
     const m = md({
       summary: evil,
       story: { state: "fresh", text: evil },
-      journal: { thread: "t", where: evil, next: [{ id: "n", text: evil }] },
+      journal: {
+        thread: "t",
+        where: evil,
+        recap: { text: evil, at: "2026-10-05T11:48:00Z", session: "claude:s1" },
+        next: [{ id: "n", text: evil }],
+      },
       places: [{ kind: "window", ref: "1", role: "ide", label: "PyCharm", title: evil, open: true, waiting: false }],
     });
     expect(m).toContain("\\!\\[x\\]");

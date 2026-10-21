@@ -64,9 +64,18 @@ export interface ItemJournalNext {
   text: string;
 }
 
+/** The newest recap a session of the checkout wrote (Claude Code's `away_summary`). */
+export interface ItemJournalRecap {
+  text: string;
+  at: string;
+  /** The session key. */
+  session: string;
+}
+
 export interface ItemJournal {
   thread: string;
   where?: string;
+  recap?: ItemJournalRecap;
   next: ItemJournalNext[];
   next_more?: number;
 }

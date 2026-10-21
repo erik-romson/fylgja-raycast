@@ -42,13 +42,18 @@ function storyMarker(state: string, generatedAt: string | undefined, now: Date |
   }
 }
 
-/** Journal first: the item, Where you are and Do next, then the story and the summary. */
+/** Journal first: the item, Where you are, the Recap and Do next, then the story and the summary. */
 function markdownOf(item: NavItem, now: Date | number): string {
   const blocks: string[] = [`## ${escapeMarkdown(oneLine(item.name))}`];
 
   const journal = item.journal;
   if (journal) {
     if (journal.where) blocks.push(`**Where you are**\n\n${para(journal.where)}`);
+    const recap = journal.recap;
+    if (recap && recap.text.trim() !== "") {
+      const age = formatAgo(recap.at, now);
+      blocks.push(`**Recap**\n\n${para(oneLine(recap.text))}${age !== "" ? `\n\n*${escapeMarkdown(age)}*` : ""}`);
+    }
     const next = (journal.next ?? []).slice(0, NEXT_MAX);
     const more = journal.next_more ?? 0;
     if (next.length > 0 || more > 0) {
