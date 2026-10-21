@@ -16,6 +16,8 @@ export interface JournalRow {
   pinned: boolean;
   /** Set for `kind: "item"`. */
   item?: JournalItem;
+  /** Set for `kind: "headline"`: the whole headline, which the list cuts. */
+  text?: string;
   /** Set for `kind: "recap"`. */
   recap?: JournalRecap;
   /** Set for `kind: "where"`: the whole detail pane. */
@@ -113,6 +115,7 @@ export function journalSections(thread: JournalThread, now: Date | number = Date
         kind: "headline",
         title: truncate(oneLine(headline), TITLE_MAX),
         pinned: false,
+        text: oneLine(headline),
       });
     });
     for (const item of day.items ?? []) rows.push(itemRow(item, "Done: "));
@@ -170,11 +173,12 @@ export function journalView(thread: JournalThread, now: Date | number = Date.now
 }
 
 /**
- * The detail pane of a row of the `rows` view: the checkout, the item's whole text, its source and How state, then
- * Where you are, which is the same for every row.
+ * The detail pane of a row of the `rows` view: the checkout, the item's or headline's whole text (and an item's source
+ * and How state), then Where you are, which is the same for every row.
  */
 export function rowDetail(thread: JournalThread, row: JournalRow): string {
   const parts = [checkoutHeading(thread)];
+  if (row.text) parts.push(escapeMarkdown(row.text), "---");
   if (row.recap) {
     const age = row.subtitle ? ` · ${escapeMarkdown(row.subtitle)}` : "";
     parts.push(`**Recap**${age}`, escapeMarkdown(oneLine(row.recap.text)), "---");

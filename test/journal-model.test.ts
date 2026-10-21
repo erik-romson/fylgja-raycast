@@ -182,6 +182,16 @@ describe("whereText and banner", () => {
     expect(detail).toContain("/work/alpha/main/notes.md");
     expect(detail).toContain("no checklist yet");
   });
+
+  it("rowDetail shows a headline's whole text before Where you are", () => {
+    const headline = `Plan and questions files exist; ${"a review is running ".repeat(6)}`.trim();
+    const withLong = { ...thread, done_recent: [{ day: "2026-10-20", headlines: [headline], items: [] }] };
+    const row = journalSections(withLong as JournalThread, NOW).find((s) => s.id.startsWith("done:"))!.rows[0];
+    expect(row.title.length).toBeLessThan(headline.length);
+    const detail = rowDetail(withLong as JournalThread, row);
+    expect(detail).toContain(headline);
+    expect(detail.indexOf(headline)).toBeLessThan(detail.indexOf("Where you are"));
+  });
 });
 
 describe("journalActions", () => {
